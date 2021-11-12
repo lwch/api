@@ -86,5 +86,9 @@ func (ctx *Context) Token() string {
 }
 
 func (ctx *Context) SetContentType(str string) {
-	ctx.r.Header.Set("Content-Type", str)
+	ctx.w.Header().Set("Content-Type", str)
+}
+
+func (ctx *Context) SetContentDisposition(name string) {
+	ctx.w.Header().Set("Content-Disposition", `attachment; filename="`+name+`"`)
 }
