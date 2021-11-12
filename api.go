@@ -2,6 +2,7 @@ package api
 
 import (
 	"encoding/json"
+	"io"
 	"net/http"
 	"time"
 )
@@ -38,6 +39,10 @@ func (ctx *Context) ERR(code int, msg string) {
 
 func (ctx *Context) Body(data []byte) {
 	ctx.w.Write(data)
+}
+
+func (ctx *Context) BodyFrom(r io.Reader) {
+	io.Copy(ctx.w, r)
 }
 
 func (ctx *Context) NotFound(what string) {
@@ -78,4 +83,8 @@ func (ctx *Context) HTTPForbidden(msg string) {
 
 func (ctx *Context) Token() string {
 	return ctx.r.Header.Get("X-Token")
+}
+
+func (ctx *Context) SetContentType(str string) {
+	ctx.r.Header.Set("Content-Type", str)
 }
