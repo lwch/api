@@ -1,6 +1,7 @@
 package api
 
 import (
+	"context"
 	"encoding/json"
 	"io"
 	"net/http"
@@ -10,14 +11,16 @@ import (
 const RequestTimeout = 10 * time.Second
 
 type Context struct {
-	w http.ResponseWriter
-	r *http.Request
+	w      http.ResponseWriter
+	r      *http.Request
+	values context.Context
 }
 
 func NewContext(w http.ResponseWriter, r *http.Request) *Context {
 	return &Context{
-		w: w,
-		r: r,
+		w:      w,
+		r:      r,
+		values: context.Background(),
 	}
 }
 
@@ -91,4 +94,12 @@ func (ctx *Context) SetContentType(str string) {
 
 func (ctx *Context) SetContentDisposition(name string) {
 	ctx.w.Header().Set("Content-Disposition", `attachment; filename="`+name+`"`)
+}
+
+func (ctx *Context) AddValue(k, v interface{}) {
+	ctx.values = context.WithValue(ctx.values, k, v)
+}
+
+func (ctx *Context) Value(k interface{}) interface{} {
+	return ctx.values.Value(k)
 }
