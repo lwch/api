@@ -103,3 +103,7 @@ func (ctx *Context) AddValue(k, v interface{}) {
 func (ctx *Context) Value(k interface{}) interface{} {
 	return ctx.values.Value(k)
 }
+
+func (ctx *Context) RawCallback(cb func(http.ResponseWriter, *http.Request)) {
+	cb(ctx.w, ctx.r)
+}
