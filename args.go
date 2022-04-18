@@ -27,6 +27,48 @@ func (ctx *Context) OInt(name string, def int) int {
 	return int(n)
 }
 
+func (ctx *Context) XInt32(name string) int32 {
+	v := ctx.r.FormValue(name)
+	if len(v) == 0 {
+		panic(MissingParam(name))
+	}
+	n, err := strconv.ParseInt(v, 10, 32)
+	if err != nil {
+		panic(BadParam(name + ":" + err.Error()))
+	}
+	return int32(n)
+}
+
+func (ctx *Context) OInt32(name string, def int32) int32 {
+	v := ctx.r.FormValue(name)
+	if len(v) == 0 {
+		return def
+	}
+	n, _ := strconv.ParseInt(v, 10, 32)
+	return int32(n)
+}
+
+func (ctx *Context) XInt64(name string) int64 {
+	v := ctx.r.FormValue(name)
+	if len(v) == 0 {
+		panic(MissingParam(name))
+	}
+	n, err := strconv.ParseInt(v, 10, 64)
+	if err != nil {
+		panic(BadParam(name + ":" + err.Error()))
+	}
+	return int64(n)
+}
+
+func (ctx *Context) OInt64(name string, def int64) int64 {
+	v := ctx.r.FormValue(name)
+	if len(v) == 0 {
+		return def
+	}
+	n, _ := strconv.ParseInt(v, 10, 64)
+	return int64(n)
+}
+
 func (ctx *Context) XUInt(name string) uint {
 	v := ctx.r.FormValue(name)
 	if len(v) == 0 {
@@ -44,8 +86,50 @@ func (ctx *Context) OUInt(name string, def uint) uint {
 	if len(v) == 0 {
 		return def
 	}
-	n, _ := strconv.ParseInt(v, 10, 64)
+	n, _ := strconv.ParseUint(v, 10, 64)
 	return uint(n)
+}
+
+func (ctx *Context) XUInt32(name string) uint32 {
+	v := ctx.r.FormValue(name)
+	if len(v) == 0 {
+		panic(MissingParam(name))
+	}
+	n, err := strconv.ParseUint(v, 10, 32)
+	if err != nil {
+		panic(BadParam(name + ":" + err.Error()))
+	}
+	return uint32(n)
+}
+
+func (ctx *Context) OUInt32(name string, def uint32) uint32 {
+	v := ctx.r.FormValue(name)
+	if len(v) == 0 {
+		return def
+	}
+	n, _ := strconv.ParseUint(v, 10, 64)
+	return uint32(n)
+}
+
+func (ctx *Context) XUInt64(name string) uint64 {
+	v := ctx.r.FormValue(name)
+	if len(v) == 0 {
+		panic(MissingParam(name))
+	}
+	n, err := strconv.ParseUint(v, 10, 64)
+	if err != nil {
+		panic(BadParam(name + ":" + err.Error()))
+	}
+	return uint64(n)
+}
+
+func (ctx *Context) OUInt64(name string, def uint64) uint64 {
+	v := ctx.r.FormValue(name)
+	if len(v) == 0 {
+		return def
+	}
+	n, _ := strconv.ParseUint(v, 10, 64)
+	return uint64(n)
 }
 
 func (ctx *Context) XStr(name string) string {
