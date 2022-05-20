@@ -107,3 +107,7 @@ func (ctx *Context) Value(k interface{}) interface{} {
 func (ctx *Context) RawCallback(cb func(http.ResponseWriter, *http.Request)) {
 	cb(ctx.w, ctx.r)
 }
+
+func (ctx *Context) Method() string {
+	return ctx.r.Method
+}
